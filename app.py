@@ -72,3 +72,16 @@ def your_url():
 	else:
 		#redirects to home function
 		return redirect(url_for('home'))
+
+#url functionality
+#url with string => save as code variable
+@app.route('/<string:code>')
+def redirect_to_url(code):
+	#check if dictionary exists (urls.json)
+	if os.path.exists('urls.json'):
+		with open('urls.json') as urls_file:
+			urls = json.load(urls_file)
+			#search for code in keys
+			if code in urls.keys():
+				if 'url' in urls[code].keys():
+					return redirect(urls[code]['url'])
