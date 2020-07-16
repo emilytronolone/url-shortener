@@ -60,7 +60,7 @@ def your_url():
 			#prevents duplicate file names
 			full_name = request.form['code'] + secure_filename(f.filename)
 			#save file with name as full_name in directory
-			f.save('/Users/emily/Desktop/url-shortener/' + full_name)
+			f.save('/Users/emily/Desktop/url-shortener/static/user_files/' + full_name)
 			#update urls.json
 			urls[request.form['code']] = {'file':full_name}
 
@@ -83,5 +83,10 @@ def redirect_to_url(code):
 			urls = json.load(urls_file)
 			#search for code in keys
 			if code in urls.keys():
+				#url
 				if 'url' in urls[code].keys():
 					return redirect(urls[code]['url'])
+				#file upload
+				else:
+					return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
+
