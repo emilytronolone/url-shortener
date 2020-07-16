@@ -10,12 +10,16 @@
 #request => retrieve input data
 #redirect => to url (oarameter is a path)
 #url_for => parameter is function
-from flask import Flask, render_template, request, redirect, url_for
+#flask => flashes alerts
+from flask import Flask, render_template, request, redirect, url_for, flash
 import json
 import os.path
 
 #create Flask app
 app = Flask(__name__)
+#allows to securely send messages back and forth from user
+#provide random string for key
+app.secret_key = 'uierhbf734y'
 
 #create first route
 #string is path name
@@ -42,6 +46,7 @@ def your_url():
 
 		#if code has already been used
 		if request.form['code'] in urls.keys():
+			flash('That short name has already been taken. Please select another name.')
 			return redirect(url_for('home'))
 
 		urls[request.form['code']] = {'url':request.form['url']}
