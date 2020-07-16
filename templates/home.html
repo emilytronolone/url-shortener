@@ -1,14 +1,27 @@
 <h1>URL Shortener</h1>
 
 <!-- Jinja code -->
+<!-- get_flashes_massages() is special method-->
 {% for message in get_flashed_messages() %}
 <h2>{{ message }}</h2>
 {% endfor %}
 
-<!-- create a form -->
+<!-- url shortener form -->
 <form action="your-url" method="post">
 	<label for="url">Website URL</label>
 		<input type="url" name="url" value="" required>
+		<br>
+	<label for="code">Short Name</label>
+		<input type="text" name="code" value="" required>
+		<br>
+		<input type="submit" value="Shorten">
+</form>
+
+<!-- file upload form -->
+<!-- enctype="multipart/form-data" allows for file upload -->
+<form action="your-url" method="post" enctype="multipart/form-data">
+	<label for="file">File</label>
+		<input type="file" name="file" value="" required>
 		<br>
 	<label for="code">Short Name</label>
 		<input type="text" name="code" value="" required>

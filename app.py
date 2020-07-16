@@ -14,6 +14,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import json
 import os.path
+#checks if file is safe to save
+#werkzeug is from Flask
+from werkzeug.utils import secure_filename
 
 #create Flask app
 app = Flask(__name__)
@@ -49,7 +52,18 @@ def your_url():
 			flash('That short name has already been taken. Please select another name.')
 			return redirect(url_for('home'))
 
-		urls[request.form['code']] = {'url':request.form['url']}
+		#checks if url or file
+		if 'url' in request.form.keys():
+			urls[request.form['code']] = {'url':request.form['url']}
+		else:
+			f = request.files['file']
+			#prevents duplicate file names
+			full_name = request.form['code'] + secure_filename(f.filename)
+			#save file with name as full_name in directory
+			f.save('/Users/emily/Desktop/url-shortener/' + full_name)
+			#update urls.json
+			urls[request.form['code']] = {'file':full_name}
+
 		#write codes and urls to json file
 		with open('urls.json','w') as url_file:
 			json.dump(urls, url_file)
