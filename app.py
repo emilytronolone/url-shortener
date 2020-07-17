@@ -11,7 +11,8 @@
 #redirect => to url (oarameter is a path)
 #url_for => parameter is function
 #flask => flashes alerts
-from flask import Flask, render_template, request, redirect, url_for, flash
+# abort => error messaging
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 import json
 import os.path
 #checks if file is safe to save
@@ -89,4 +90,10 @@ def redirect_to_url(code):
 				#file upload
 				else:
 					return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
+	#return 404 error message if code does not exist
+	return abort(404)
 
+#custom 404 error page
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template('page_not_found.html'), 404
