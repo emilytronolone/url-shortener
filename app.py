@@ -12,7 +12,8 @@
 #url_for => parameter is function
 #flask => flashes alerts
 # abort => error messaging
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+#session => allows us to access cookies
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
 import json
 import os.path
 #checks if file is safe to save
@@ -30,7 +31,8 @@ app.secret_key = 'uierhbf734y'
 @app.route('/')
 #route function uses html file
 def home():
-	return render_template('home.html')
+	#use cookies as parameter
+	return render_template('home.html', codes=session.keys())
 
 #new route that displays '/your-url' in url
 #accepts get and post request methods
@@ -68,6 +70,8 @@ def your_url():
 		#write codes and urls to json file
 		with open('urls.json','w') as url_file:
 			json.dump(urls, url_file)
+			#save code into cookie
+			session[request.form['code']] = True
 		#loads your-url page
 		return render_template('your_url.html', code=request.form['code'])
 	else:

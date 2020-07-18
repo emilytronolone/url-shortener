@@ -29,3 +29,17 @@
 		<br>
 		<input type="submit" value="Shorten">
 </form>
+
+<!-- display cookie information using Jinja -->
+{% if codes %}
+<h2>Codes you have created</h2>
+<ul>
+	<!-- use for loop to list all codes in list -->
+	{% for code in codes %}
+	<!-- add links -->
+	<a href="{{ url_for('redirect_to_url', code=code) }}">
+	<li>{{ code }}</li>
+	{% endfor %}
+	</a>
+</ul>
+{% endif %}
